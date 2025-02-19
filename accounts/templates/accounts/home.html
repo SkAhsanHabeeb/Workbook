@@ -1,0 +1,40 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+<div class="hero-section">
+<div class="container">
+<h2>Welcome to WORKBOOK Your Gateway to Professional Excellence
+</h2>
+<p>In today's fast-paced world, finding the right professionals for your needs can be a challenge. Workbook is here to change that. Our platform connects you with skilled professionals across various industries, whether you're looking for a software developer, graphic designer, business consultant, or any other expert.
+</p>
+<P>With Workbook, hiring professionals is simple and efficient. As a user, you can browse through a diverse range of experienced professionals, view their profiles, and choose the right person for your project or business. Unlike traditional networking platforms, Workbook ensures privacy—professionals can showcase their skills and services, while users can explore and hire without being visible to professionals.
+</P>
+<P>We believe in empowering businesses and individuals by providing seamless access to talent. Whether you're a startup looking for technical expertise, a company seeking creative solutions, or an entrepreneur in need of professional guidance, Workbook is your trusted partner.
+</P>
+<P><a href="http://127.0.0.1:8000/register/">Sign up</a> today and take the first step toward achieving your goals with the right professionals by your side!
+</P>
+</div>
+</div>
+
+<!-- Displaying Professionals -->
+
+<div class="container r trending-section">
+    <h4 class="trending-title">Our Professionals</h4>
+    <div class="row">
+    {% for professional in professionals %}
+    <div class="col-md-4">
+        <div class="card">
+        <img src="{{ professional.user.profile_picture.url }}" alt="{{ professional.user.username }}" class="card-image-top">
+        <div class="card-body">
+        <h4 class="card-title">{{ professional.user.username }}</h4>
+        <p class="card-text"><strong>Profession:</strong> {{ professional.profession }}</p>
+        <p class="card-text"><strong>Experience:</strong> {{ professional.experience }} years</p>
+        <a href="{% url 'profile' professional.id %}" class="btn-btn-trending">View Profile</a>
+    </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No professionals available at the moment.</p>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

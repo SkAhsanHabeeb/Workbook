@@ -1,0 +1,25 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow p-4">
+                <div class="text-center">
+                    {% if professional.user.profile_picture %}
+                        <img src="{{ professional.user.profile_picture.url }}" alt="{{ professional.user.username }}" class="rounded-circle" width="150">
+                    {% else %}
+                        <img src="{% static 'd.jpg' %}" alt="Default Profile Picture" class="rounded-circle" width="150">
+                    {% endif %}
+                    <h3 class="card-title">{{ professional.user.username }}</h3>
+                    <p class="card-text"><strong>Profession:</strong> {{ professional.profession }}</p>
+                    <p class="card-text"><strong>Experience:</strong> {{ professional.experience }} years</p>
+                    <p class="card-text"><strong>Location:</strong> {{ professional.location }}</p>
+                    <p class="card-text"><strong>Bio:</strong> {{ professional.bio }}</p>
+                    <p class="card-text"><strong>Contact Number:</strong>{{ professional.phone_number }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
