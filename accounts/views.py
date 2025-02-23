@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, ProfessionalProfileForm
-from .models import ProfessionalProfile
+from .models import CustomUser, ProfessionalProfile
+from django.db.models import Q
 
 def register(request):
     if request.method == "POST":
@@ -49,23 +50,35 @@ def login_view(request):
             login(request, user)
             return redirect("home")
     return render(request, "accounts/login.html")
+
+
 @login_required
 def search_professionals(request):
-    query = request.GET.get("q", "")
-    professionals = ProfessionalProfile.objects.filter(profession__icontains=query)
-    return render(request, "accounts/search.html", {"professionals":professionals})
+    query = request.GET.get("query", "")
+    professionals = ProfessionalProfile.objects.filter(Q(profession__icontains=query)|Q(user__username__icontains=query))
+    if professionals.count()==1:
+        return redirect('profile',id=professionals.first().id)
+    return render(request, "accounts/search.html", {"professionals":professionals,"query":query})
+
+
+
+
 
 def home(request):
     professionals=ProfessionalProfile.objects.all()
     return render(request,'accounts/home.html',{"professionals":professionals})
+
 
 @login_required
 def profile(request,id):
     professional=get_object_or_404(ProfessionalProfile,id=id)
     return render(request,"accounts/profile.html",{"professional":professional})
 
+
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
 def contact_us(request):
     return render(request,"accounts/contact.html")

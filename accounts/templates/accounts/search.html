@@ -3,10 +3,24 @@
 {% block content %}
 <div class="container">
     <h1 class="trending-title">Search Professionals</h1>
-    <form method="GET" action="{% url 'search_professionals' %}">
-        <input type="text" name="query" placeholder="Search by profession or name" class="form-control mb-2">
+    <form method="GET" action="{% url 'search_professionals' %}" class="mb-2">
+        <input type="text" name="query" placeholder="Search by profession or name..." class="form-control mb-2" value= ""{{ query }}"">
         <button type="submit" class="btn btn-success">Search</button>
     </form>
+    <!-- Display Results -->
+    {% if professionals %}
+        <ul class="list-group">
+            {% for professional in professionals %}
+                <li class="list-group-item">
+                    <a href="{% url 'profile' professional.id %}">
+                        {{ professional.name }} - {{ professional.profession }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No professionals found.</p>
+    {% endif %}
 </div>
 <br>
 <br>
